@@ -246,8 +246,7 @@ function openGame(){
 }
 
 function startMusic2(){
-  youtubeCommand("pauseVideo");
-  youtubeCommand("seekTo");
+  // music2 plays together with the YouTube background music.
   music2.currentTime = 0;
   music2.muted = soundMuted;
   music2.play().catch(()=>{});
