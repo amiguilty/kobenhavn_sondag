@@ -231,7 +231,8 @@ function youtubeCommand(func){
   music1.contentWindow.postMessage(JSON.stringify({event:"command",func,args:[]}), "*");
 }
 function startMusic1OnLoad(){
-  youtubeCommand("seekTo");
+  // Start/resume YouTube only when the user presses "turn on the music".
+  // No seekTo: after the wheel opens, the track must continue from its current position.
   youtubeCommand("playVideo");
   youtubeCommand(soundMuted ? "mute" : "unMute");
 }
@@ -246,7 +247,8 @@ function openGame(){
 }
 
 function startMusic2(){
-  // music2 plays together with the YouTube background music.
+  // music2 starts on top of the YouTube background music.
+  // IMPORTANT: never pause, seek, restart, or otherwise touch music1 here.
   music2.currentTime = 0;
   music2.muted = soundMuted;
   music2.play().catch(()=>{});
@@ -314,7 +316,6 @@ function burstFromCorner(side){
 
 spinBtn.addEventListener("click",()=>{
   openGame();
-  startMusic1OnLoad();
 });
 
 function burstEmoji(button, emoji, count=18){
@@ -350,6 +351,7 @@ notInterestedBtn.addEventListener("click", ()=>{
 });
 
 musicBtn.addEventListener("click", ()=>{
+  // This is the user gesture that starts the YouTube music.
   startMusic1OnLoad();
   musicBtn.textContent = "music is on 💌";
 });
@@ -362,12 +364,13 @@ function closeGame(){
   modalSpinBtn.disabled = false;
   closeBtn.hidden = false;
 
-  // Stop game/result music and restart the background music.
+  // Stop only the game/result sounds.
+  // YouTube background music is left completely untouched, so it keeps playing
+  // from its current position.
   music2.pause();
   music2.currentTime = 0;
   music3.pause();
   music3.currentTime = 0;
-  startMusic1OnLoad();
 }
 
 closeBtn.addEventListener("click", closeGame);
@@ -377,7 +380,6 @@ modalSpinBtn.addEventListener("click",spin);
 window.addEventListener("resize",()=>drawWheel());
 
 drawWheel();
-startMusic1OnLoad();
 
   </script>
 </body>
