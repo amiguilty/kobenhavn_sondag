@@ -117,7 +117,7 @@ canvas{display:block;width:100%;height:auto}
     </div>
   </div>
 
-  <audio id="music1" src="music1.mp3" preload="auto" loop></audio>
+  <iframe id="music1" src="https://www.youtube.com/embed/-qKU3MN8FSA?enablejsapi=1&autoplay=0&loop=1&playlist=-qKU3MN8FSA" allow="autoplay; encrypted-media" style="position:absolute;width:1px;height:1px;border:0;opacity:0;pointer-events:none;" aria-hidden="true"></iframe>
   <audio id="music2" src="music2.mp3" preload="auto"></audio>
   <audio id="music3" src="music3.mp3" preload="auto"></audio>
 
@@ -137,7 +137,7 @@ const music3 = document.getElementById("music3");
 const soundToggle = document.getElementById("soundToggle");
 let soundMuted = false;
 
-const allAudio = [music1, music2, music3];
+const allAudio = [music2, music3];
 
 function updateSoundUI(){
   soundToggle.textContent = soundMuted ? "🔇" : "🔊";
@@ -148,7 +148,7 @@ function updateSoundUI(){
 
 soundToggle.addEventListener("click", ()=>{
   soundMuted = !soundMuted;
-  allAudio.forEach(a => a.muted = soundMuted);
+  allAudio.forEach(a => a.muted = soundMuted); youtubeCommand(soundMuted ? "mute" : "unMute");
   updateSoundUI();
 });
 
@@ -222,11 +222,14 @@ function drawWheel(rot=rotation){
   ctx.stroke();
 }
 
+function youtubeCommand(func){
+  if(!music1.contentWindow) return;
+  music1.contentWindow.postMessage(JSON.stringify({event:"command",func,args:[]}), "*");
+}
 function startMusic1OnLoad(){
-  music1.muted = soundMuted;
-  music1.currentTime = 0;
-  const p = music1.play();
-  if (p) p.catch(() => {});
+  youtubeCommand("seekTo");
+  youtubeCommand("playVideo");
+  youtubeCommand(soundMuted ? "mute" : "unMute");
 }
 
 function openGame(){
@@ -239,8 +242,8 @@ function openGame(){
 }
 
 function startMusic2(){
-  music1.pause();
-  music1.currentTime = 0;
+  youtubeCommand("pauseVideo");
+  youtubeCommand("seekTo");
   music2.currentTime = 0;
   music2.muted = soundMuted;
   music2.play().catch(()=>{});
@@ -307,11 +310,7 @@ function burstFromCorner(side){
 
 spinBtn.addEventListener("click",()=>{
   openGame();
-  if (music1.paused) {
-    music1.currentTime = 0;
-    music1.muted = soundMuted;
-    music1.play().catch(()=>{});
-  }
+  startMusic1OnLoad();
 });
 
 function burstEmoji(button, emoji, count=18){
@@ -359,9 +358,7 @@ function closeGame(){
   music2.currentTime = 0;
   music3.pause();
   music3.currentTime = 0;
-  music1.currentTime = 0;
-  music1.muted = soundMuted;
-  music1.play().catch(()=>{});
+  startMusic1OnLoad();
 }
 
 closeBtn.addEventListener("click", closeGame);
