@@ -15,6 +15,8 @@ body{overflow-x:hidden;min-height:100svh;padding-bottom:env(safe-area-inset-bott
 .intro{text-align:center;width:min(900px,100%)}
 .intro h1{font-size:clamp(28px,5vw,64px);line-height:1.03;margin:0 0 48px;font-weight:800;letter-spacing:-.04em;color:#fff;text-shadow:-2px -2px 0 #ff69b4,2px -2px 0 #ff69b4,-2px 2px 0 #ff69b4,2px 2px 0 #ff69b4,0 0 10px #ff69b488}
 .actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.music-start{flex-basis:100%;width:auto;margin-top:4px;padding:12px 22px;border-radius:999px;background:#ffb6d9;color:#fff;font-size:16px;box-shadow:0 6px 16px #ff69b455;transition:transform .15s,background .15s}
+.music-start:hover{transform:translateY(-2px);background:#ff9dcc}
 button{font:inherit;font-weight:800;border:0;cursor:pointer}
 .primary,.secondary{padding:16px 26px;border-radius:999px;font-size:18px}
 .primary{background:#ff69b4;color:#fff;box-shadow:0 8px 20px #ff69b455;transition:transform .15s;animation:slowPulse 2.8s ease-in-out infinite}
@@ -64,7 +66,7 @@ canvas{display:block;width:100%;height:auto}
   .intro{padding:0 4px}
   .intro h1{font-size:clamp(30px,9vw,48px);line-height:.98;margin:0 0 34px;letter-spacing:-.045em}
   .actions{width:100%;flex-direction:column;gap:10px}
-  .primary,.secondary{width:100%;padding:15px 20px;font-size:16px}
+  .primary,.secondary,.music-start{width:100%;padding:15px 20px;font-size:16px}
   .modal{padding:10px}
   .modal-card{width:100%;max-height:calc(100svh - 20px);padding:34px 12px 22px;border-radius:22px}
   .wheel-wrap{width:min(88vw,520px)}
@@ -93,6 +95,7 @@ canvas{display:block;width:100%;height:auto}
       <div class="actions">
         <button id="spinBtn" class="primary">SPINNN!!</button>
         <button id="notInterestedBtn" class="secondary" type="button">I'm not interested</button>
+        <button id="musicBtn" class="music-start" type="button">turn on the music</button>
       </div>
     </section>
   </main>
@@ -127,6 +130,7 @@ const modal = document.getElementById("gameModal");
 const modalSpinBtn = document.getElementById("modalSpinBtn");
 const closeBtn = document.getElementById("closeBtn");
 const notInterestedBtn = document.getElementById("notInterestedBtn");
+const musicBtn = document.getElementById("musicBtn");
 const result = document.getElementById("result");
 const wheelCanvas = document.getElementById("wheel");
 const ctx = wheelCanvas.getContext("2d");
@@ -256,6 +260,7 @@ function finish(){
   modalSpinBtn.hidden = true;
   music2.pause();
   music2.currentTime = 0;
+  music3.pause();
   music3.currentTime = 0;
   music3.muted = soundMuted;
   music3.play().catch(()=>{});
@@ -343,6 +348,11 @@ spinBtn.addEventListener("click", ()=>{
 
 notInterestedBtn.addEventListener("click", ()=>{
   burstEmoji(notInterestedBtn, "🖕", 20);
+});
+
+musicBtn.addEventListener("click", ()=>{
+  startMusic1OnLoad();
+  musicBtn.textContent = "music is on 💌";
 });
 
 function closeGame(){
