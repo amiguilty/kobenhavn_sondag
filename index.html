@@ -6,37 +6,55 @@
   <title>Lykkehjulet</title>
   <style>
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#f5f0e8;color:#151515}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#cfefff;color:#fff}
 body{overflow-x:hidden;min-height:100svh;padding-bottom:env(safe-area-inset-bottom)}
 .sound-toggle{position:fixed;top:18px;right:18px;width:48px;height:48px;border-radius:50%;background:#111;color:#fff;font-size:22px;display:grid;place-items:center;z-index:50;box-shadow:0 8px 22px #0003;transition:transform .15s,background .15s}
 .sound-toggle:hover{transform:scale(1.06)}
 .sound-toggle.muted{background:#ddd;color:#111}
 .page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px}
 .intro{text-align:center;width:min(900px,100%)}
-.intro h1{font-size:clamp(28px,5vw,64px);line-height:1.03;margin:0 0 48px;font-weight:800;letter-spacing:-.04em}
+.intro h1{font-size:clamp(28px,5vw,64px);line-height:1.03;margin:0 0 48px;font-weight:800;letter-spacing:-.04em;color:#fff;text-shadow:-2px -2px 0 #ff69b4,2px -2px 0 #ff69b4,-2px 2px 0 #ff69b4,2px 2px 0 #ff69b4,0 0 10px #ff69b488}
 .actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
 button{font:inherit;font-weight:800;border:0;cursor:pointer}
 .primary,.secondary{padding:16px 26px;border-radius:999px;font-size:18px}
-.primary{background:#111;color:#fff;box-shadow:0 8px 20px #0002;transition:transform .15s}
-.primary:hover{transform:translateY(-2px)}
-.secondary{background:#ddd;color:#888;cursor:not-allowed}
+.primary{background:#ff69b4;color:#fff;box-shadow:0 8px 20px #ff69b455;transition:transform .15s;animation:slowPulse 2.8s ease-in-out infinite}
+.primary:hover{
+  transform:translateY(-2px);
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Ctext x='2' y='39' font-size='38'%3E%F0%9F%92%98%3C/text%3E%3C/svg%3E") 8 8, pointer;
+}
+.secondary{background:#8d87a8;color:#ddd;cursor:not-allowed;opacity:.9}
 .secondary:hover{
   cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Ctext x='2' y='39' font-size='38'%3E%F0%9F%96%95%3C/text%3E%3C/svg%3E") 8 8, not-allowed;
 }
 
-.modal{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:18px;z-index:10}
+.modal{position:fixed;inset:0;background:#8fd3f4cc;display:grid;place-items:center;padding:18px;z-index:10}
 .modal[hidden]{display:none}
-.modal-card{position:relative;background:#f8f4ec;width:min(760px,96vw);max-height:96vh;overflow:auto;border-radius:28px;padding:28px 22px 30px;text-align:center;box-shadow:0 30px 100px #0008}
+.modal-card{position:relative;background:#dff5ff;width:min(760px,96vw);max-height:96vh;overflow:auto;border-radius:28px;padding:28px 22px 30px;text-align:center;box-shadow:0 30px 100px #5a3b7566}
 .wheel-wrap{position:relative;width:min(620px,86vw);margin:0 auto}
 canvas{display:block;width:100%;height:auto}
 .pointer{position:absolute;z-index:3;top:-3px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-top:0;border-bottom:34px solid #e32b2b;filter:drop-shadow(0 3px 2px #0005)}
-.spin-modal{margin-top:20px;background:#111;color:#fff;padding:15px 32px;border-radius:999px;font-size:18px}
+.spin-modal{margin-top:20px;background:#ff69b4;color:#fff;padding:15px 32px;border-radius:999px;font-size:18px;box-shadow:0 8px 20px #ff69b455;transition:transform .15s,box-shadow .15s}
 .spin-modal:disabled{opacity:.45;cursor:default}
 .result{margin:24px auto 0;max-width:600px}
-.result h2{font-size:clamp(25px,4vw,42px);line-height:1.04;margin:0 0 14px}
-.result p{font-size:19px;margin:0 0 18px}
-.presentation{display:inline-block;color:#111;text-decoration:underline;font-weight:800;font-size:18px}
-.close{position:absolute;right:16px;top:12px;background:transparent;font-size:34px;line-height:1;z-index:5}
+.result h2{font-size:clamp(25px,4vw,42px);line-height:1.04;margin:0 0 14px;color:#fff;text-shadow:-2px -2px 0 #ff69b4,2px -2px 0 #ff69b4,-2px 2px 0 #ff69b4,2px 2px 0 #ff69b4}
+.result p{font-size:19px;margin:0 0 18px;color:#fff;text-shadow:-1px -1px 0 #ff69b4,1px -1px 0 #ff69b4,-1px 1px 0 #ff69b4,1px 1px 0 #ff69b4}
+.presentation{display:inline-block;color:#ff4fa3;text-decoration:underline;font-weight:800;font-size:18px}
+.close{position:absolute;right:16px;top:12px;background:#ff69b4;color:#fff;width:42px;height:42px;border-radius:50%;font-size:30px;line-height:38px;padding:0;z-index:5;box-shadow:0 5px 14px #ff69b455;cursor:pointer;transition:transform .15s}.close:hover{transform:scale(1.08)}
+
+@keyframes slowPulse{0%,100%{transform:scale(1);box-shadow:0 8px 20px #ff69b455}50%{transform:scale(1.05);box-shadow:0 10px 28px #ff69b477}}\n\n.emoji-burst{
+  position:fixed;
+  z-index:100;
+  pointer-events:none;
+  font-size:30px;
+  line-height:1;
+  animation:emojiBurst 1.25s cubic-bezier(.15,.7,.25,1) forwards;
+  will-change:transform,opacity;
+}
+@keyframes emojiBurst{
+  0%{transform:translate(0,0) scale(.65) rotate(0deg);opacity:0}
+  12%{opacity:1}
+  100%{transform:translate(var(--dx),var(--dy)) scale(1.15) rotate(var(--rot));opacity:0}
+}
 
 .confetti{position:fixed;width:10px;height:18px;z-index:30;pointer-events:none;animation:fall 2.2s cubic-bezier(.15,.7,.25,1) forwards}
 @keyframes fall{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(760deg);opacity:0}}
@@ -71,17 +89,17 @@ canvas{display:block;width:100%;height:auto}
   <button id="soundToggle" class="sound-toggle" type="button" aria-label="Отключить звук" aria-pressed="false">🔊</button>
   <main class="page">
     <section class="intro" aria-label="Lykkehjulet">
-      <h1>Spin'n'win - hvad kan du vinde i dag?</h1>
+      <h1>💌<br>Spin'n'win - hvad kan du vinde i dag?</h1>
       <div class="actions">
         <button id="spinBtn" class="primary">SPINNN!!</button>
-        <button class="secondary" disabled>I'm not interested</button>
+        <button id="notInterestedBtn" class="secondary" type="button">I'm not interested</button>
       </div>
     </section>
   </main>
 
   <div id="gameModal" class="modal" hidden>
     <div class="modal-card" role="dialog" aria-modal="true" aria-label="Lykkehjulet">
-      <button id="closeBtn" class="close" aria-label="Luk" hidden>×</button>
+      <button id="closeBtn" class="close" aria-label="Luk">×</button>
 
       <div class="wheel-wrap">
         <div class="pointer" aria-hidden="true"></div>
@@ -90,10 +108,10 @@ canvas{display:block;width:100%;height:auto}
 
       <button id="modalSpinBtn" class="spin-modal">KØR!</button>
       <div id="result" class="result" hidden>
-        <h2>Tillykke! Du har vundet en tur med mig til Copenhagen Contemporary.</h2>
-        <p>Send dette skærmbillede til Kirill.</p>
+        <h2>Tillykke! Du har vundet en date med mig. Be ready for Copenhagen Contemporary and food experience (27.09.2026)</h2>
+        <p>Send dette skærmbillede til Сyril.</p>
         <a class="presentation" href="https://copenhagencontemporary.org/fire-ice/" id="presentationLink" target="_self">
-          præsentation af udstillingen 11.09–31.12
+          præsentation af udstillingen
         </a>
       </div>
     </div>
@@ -107,6 +125,8 @@ canvas{display:block;width:100%;height:auto}
 const spinBtn = document.getElementById("spinBtn");
 const modal = document.getElementById("gameModal");
 const modalSpinBtn = document.getElementById("modalSpinBtn");
+const closeBtn = document.getElementById("closeBtn");
+const notInterestedBtn = document.getElementById("notInterestedBtn");
 const result = document.getElementById("result");
 const wheelCanvas = document.getElementById("wheel");
 const ctx = wheelCanvas.getContext("2d");
@@ -139,7 +159,7 @@ const segments = [
   {emoji:"🧸", label:"legetøj"},
   {emoji:"💍", label:"ægteskab"},
   {emoji:"🔞", label:"18+"},
-  {emoji:"🖕", label:"ups"},
+  {emoji:"😢", label:"ups"},
   {emoji:"💸", label:"penge"},
   {emoji:"🎟️", label:"billet"} // ALWAYS THE WINNING SEGMENT
 ];
@@ -171,10 +191,10 @@ function drawWheel(rot=rotation){
     ctx.moveTo(0,0);
     ctx.arc(0,0,r,a0,a1);
     ctx.closePath();
-    ctx.fillStyle = i % 2 ? "#f3c64b" : "#e85c55";
+    ctx.fillStyle = i % 2 ? "#bfe8ff" : "#ff9dcc";
     ctx.fill();
     ctx.lineWidth = 5;
-    ctx.strokeStyle = "#f8f4ec";
+    ctx.strokeStyle = "#dff5ff";
     ctx.stroke();
 
     const mid = (a0+a1)/2;
@@ -191,14 +211,14 @@ function drawWheel(rot=rotation){
 
   ctx.beginPath();
   ctx.arc(0,0,44,0,Math.PI*2);
-  ctx.fillStyle="#111";
+  ctx.fillStyle="#ff69b4";
   ctx.fill();
   ctx.restore();
 
   ctx.beginPath();
   ctx.arc(cx,cy,290,0,Math.PI*2);
   ctx.lineWidth=8;
-  ctx.strokeStyle="#111";
+  ctx.strokeStyle="#ff69b4";
   ctx.stroke();
 }
 
@@ -211,6 +231,7 @@ function startMusic1OnLoad(){
 
 function openGame(){
   modal.hidden = false;
+  closeBtn.hidden = false;
   result.hidden = true;
   modalSpinBtn.hidden = false;
   modalSpinBtn.disabled = false;
@@ -292,6 +313,58 @@ spinBtn.addEventListener("click",()=>{
     music1.play().catch(()=>{});
   }
 });
+
+function burstEmoji(button, emoji, count=18){
+  const rect = button.getBoundingClientRect();
+  const startX = rect.left + rect.width / 2;
+  const startY = rect.top + rect.height / 2;
+
+  for(let i=0;i<count;i++){
+    const el = document.createElement("div");
+    el.className = "emoji-burst";
+    el.textContent = emoji;
+    el.style.left = `${startX}px`;
+    el.style.top = `${startY}px`;
+
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 70 + Math.random() * 150;
+    el.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+    el.style.setProperty("--dy", `${Math.sin(angle) * distance - 30}px`);
+    el.style.setProperty("--rot", `${-35 + Math.random() * 70}deg`);
+    el.style.animationDelay = `${Math.random() * .18}s`;
+
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),1500);
+  }
+}
+
+spinBtn.addEventListener("click", ()=>{
+  burstEmoji(spinBtn, "💘", 20);
+});
+
+notInterestedBtn.addEventListener("click", ()=>{
+  burstEmoji(notInterestedBtn, "🖕", 20);
+});
+
+function closeGame(){
+  spinning = false;
+  modal.hidden = true;
+  result.hidden = true;
+  modalSpinBtn.hidden = false;
+  modalSpinBtn.disabled = false;
+  closeBtn.hidden = false;
+
+  // Stop game/result music and restart the background music.
+  music2.pause();
+  music2.currentTime = 0;
+  music3.pause();
+  music3.currentTime = 0;
+  music1.currentTime = 0;
+  music1.muted = soundMuted;
+  music1.play().catch(()=>{});
+}
+
+closeBtn.addEventListener("click", closeGame);
 
 modalSpinBtn.addEventListener("click",spin);
 
