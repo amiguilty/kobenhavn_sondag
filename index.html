@@ -226,9 +226,9 @@ function youtubeCommand(func){
   if(!music1.contentWindow) return;
   music1.contentWindow.postMessage(JSON.stringify({event:"command",func,args:[]}), "*");
 }
-function startMusic1OnLoad(){
-  // Start/resume YouTube only when the user presses "turn on the music".
-  // No seekTo: after the wheel opens, the track must continue from its current position.
+function startMusic1(){
+  // Start YouTube only after the user presses SPINNN!!.
+  // No seekTo: subsequent spins keep the current YouTube position.
   youtubeCommand("playVideo");
   youtubeCommand(soundMuted ? "mute" : "unMute");
 }
@@ -311,6 +311,7 @@ function burstFromCorner(side){
 }
 
 spinBtn.addEventListener("click",()=>{
+  startMusic1();
   openGame();
 });
 
@@ -369,7 +370,6 @@ modalSpinBtn.addEventListener("click",spin);
 window.addEventListener("resize",()=>drawWheel());
 
 drawWheel();
-startMusic1OnLoad();
 
   </script>
 </body>
